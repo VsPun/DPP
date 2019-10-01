@@ -12,7 +12,7 @@ namespace MilSpace.Core.Actions.Actions.Pythom
 {
     public class RunPythonAction : MilSpace.Core.Actions.Base.Action<StringActionResult>
     {
-        IEnumerable<string> pytonParameters;
+        IEnumerable<string> pythonParameters;
 
         public RunPythonAction()
         {
@@ -23,11 +23,11 @@ namespace MilSpace.Core.Actions.Actions.Pythom
         {
             logger.InfoEx("Initiating \"Launch Python script\" action.");
 
-            pytonParameters = parameters.GetParameters<string>(ActionParamNamesCore.DataValue, string.Empty).Select(p => p.Value);
+            pythonParameters = parameters.GetParameters<string>(ActionParamNamesCore.DataValue, string.Empty).Select(p => p.Value);
 
-            if (pytonParameters.Count() == 1 && string.IsNullOrEmpty(pytonParameters.First()))
+            if (pythonParameters.Count() == 1 && string.IsNullOrEmpty(pythonParameters.First()))
             {
-                pytonParameters = new string[0];
+                pythonParameters = new string[0];
             }
 
             this.returnResult.Result = string.Empty;
@@ -62,13 +62,14 @@ namespace MilSpace.Core.Actions.Actions.Pythom
         
             try
             {
-                if (pytonParameters.Count() == 0)
+                if (pyth
+onParameters.Count() == 0)
                 {
                     this.returnResult.Exception = new ArgumentException("The python script file was not pointed.");
                     return;
                 }
 
-                string scriptFileName = Path.Combine(ParthToScriptStorage, pytonParameters.First());
+                string scriptFileName = Path.Combine(ParthToScriptStorage, pythonParameters.First());
 
                 if (!File.Exists(scriptFileName))
                 {
@@ -76,7 +77,7 @@ namespace MilSpace.Core.Actions.Actions.Pythom
                     return;
                 }
 
-                var paramsToScript = pytonParameters.ToArray();
+                var paramsToScript = pythonParameters.ToArray();
 
                 paramsToScript[0] = scriptFileName;
 
@@ -152,7 +153,7 @@ namespace MilSpace.Core.Actions.Actions.Pythom
             {
                 if (description.IsEmpty)
                 {
-                    description.Description = "Launches Pyton scrips.";
+                    description.Description = "Launches Python scrips.";
                 };
                 return base.Description;
             }
